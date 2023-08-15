@@ -1,0 +1,17 @@
+.navbar {
+    background-color: var(--white);
+    padding: 27px 40px 32px;
+    border-bottom: 1px solid var(--primary-100);
+    display: flex;
+    align-items: center;
+}
+
+.navbar-page-title {
+    margin-inline-start: 40px;
+    font-size: 18px;
+}
+
+.salt-logo{
+    width: 141px;
+    height: 41px;
+}

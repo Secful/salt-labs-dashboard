@@ -1,0 +1,122 @@
+:root {
+    --white: #ffffff;
+    --primary-01: #F7F1FF;
+    --primary-04: #AF8BEB;
+    --primary-05: #7d3ce9;
+    --primary-100: #ded8e8;
+    --neutral-01: #F5F5F5;
+    --neutral-02: #EDEDED;
+    --neutral-03: #E6E4E9;
+    --neutral-04: #D5D4D8;
+    --neutral-05: #A1A0A3;
+    --neutral-06: #3D3D3D;
+    --light-greyscale-text-primary: #181818;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/Inter/Inter-Light.ttf');
+    font-weight: 300;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/Inter/Inter-Regular.ttf');
+    font-weight: 400;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/Inter/Inter-Medium.ttf');
+    font-weight: 500;
+}
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/Inter/Inter-SemiBold.ttf');
+    font-weight: 600;
+}
+
+@font-face {
+    font-family: 'Inter';
+    src: url('assets/fonts/Inter/Inter-Bold.ttf');
+    font-weight: 700;
+}
+
+body {
+    margin: 0;
+    background-color: var(--neutral-01);
+    font-family: 'Inter';
+    color: var(--light-greyscale-text-primary);
+}
+
+button {
+    font-family: 'Inter';
+    color: var(--light-greyscale-text-primary);
+}
+
+h1, h2, h3, h4, h5, h6, p {
+    margin: 0;
+}
+
+.input-group + .input-group{
+    margin-top: 30px;
+}
+
+.label {
+    display: block;
+    font-size: 12px;
+    font-weight: 400;
+    line-height: 18px;
+    color: var(--neutral-06);
+}
+
+.input {
+    margin-top: 5px;
+    padding: 5px 10px;
+    border: 1px solid var(--neutral-03);
+    border-radius: 6px;
+    font-size: 14px;
+    height: 36px;
+    box-sizing: border-box;
+    width: 100%;
+    color: var(--neutral-06);
+}
+
+.button {
+    background-color: transparent;
+    border: none;
+    padding: 10px 15px;
+    border-radius: 6px;
+    font-weight: 400;
+    cursor: pointer;
+    color: var(--neutral-06);
+    display: flex;
+    align-items: center;
+}
+
+.button:disabled{
+    cursor: default;
+}
+
+.button.primary {
+    background-color: var(--primary-05);
+    color: var(--neutral-02);
+}
+
+.button.primary:disabled {
+    color: var(--neutral-04);
+    background-color: transparent;
+}
+
+.new-instance-dialog {
+    max-height: 543px;
+    height: 100%;
+    max-width: 560px !important;
+    width: 100%;
+    margin: 10px;
+    overflow-x: hidden;
+    border-radius: 6px;
+    border: 1px solid var(--primary-100);
+}
+
+.mat-mdc-option .mat-pseudo-checkbox-minimal {
+    display: none;
+}

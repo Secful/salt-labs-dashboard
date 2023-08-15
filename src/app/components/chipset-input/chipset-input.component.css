@@ -1,0 +1,53 @@
+.mat-mdc-chip-grid{
+    width: 100%;
+    border: 1px solid var(--neutral-03);
+    border-radius: 6px;
+    height: 37px;
+    padding: 5px 10px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+.mat-mdc-chip-input{
+    border: none;
+    font-size: 14px;
+}
+
+:host ::ng-deep .mat-mdc-chip, .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled){
+    background-color: var(--white);
+    border: 1px solid var(--neutral-03);
+    border-radius: 6px;
+    margin: 0;
+    margin-inline-start: 10px;
+    --mdc-chip-container-height: auto;
+    line-height: 22px;
+    font-size: 14px;
+}
+
+:host ::ng-deep .mat-mdc-standard-chip.mdc-evolution-chip--with-trailing-action .mdc-evolution-chip__action--primary {
+    padding-inline-start: 10px;
+}
+
+:host ::ng-deep .mat-mdc-standard-chip:not(.mdc-evolution-chip--disabled) .mdc-evolution-chip__text-label, :host ::ng-deep .mdc-evolution-chip__text-label{
+    color: var(--primary-05);
+}
+
+.mat-mdc-standard-chip.mdc-evolution-chip--with-trailing-action .mdc-evolution-chip__action--trailing {
+    padding-left: 10px;
+    padding-right: 10px;
+}
+
+.delete-chip{
+    width: 16px;
+    height: 16px;
+    color: var(--neutral-06);
+}
+
+.mat-mdc-chip-set-disabled {
+    background-color: var(--neutral-01);
+}
+
+.mat-mdc-chip-set-disabled input{
+    background-color: transparent;
+    color: var(--neutral-05);
+}

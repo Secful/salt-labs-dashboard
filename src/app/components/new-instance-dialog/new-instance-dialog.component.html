@@ -1,0 +1,87 @@
+<div class="dialog-container">
+  <div class="dialog-header">
+    <h2 class="dialog-title">{{data ? 'Clone "' + data.domain_name + '" Instance' : 'New Instance'}}</h2>
+    <button class="close-button" (click)="closeDialog()">
+      <div [innerHTML]="closeIcon"></div>
+    </button>
+  </div>
+  <ng-container [ngSwitch]="instanceStatus.status">
+    <form [formGroup]="form" (ngSubmit)="formSubmit()" *ngSwitchCase="instanceStatusEnum.FORM"
+      class="new-instance-form">
+      <div class="dialog-body">
+        <div class="input-group">
+          <div class="row">
+            <div class="input-group instance-name-input">
+              <label for="domain_name" class="label">Domain name</label>
+              <input id="domain_name" class="input" type="text" formControlName="domain_name"
+                placeholder="Insert Name" />
+            </div>
+            <div class="input-group number-of-instances-input">
+              <label for="amount" class="label">Number of instances</label>
+              <input id="amount" class="input" type="number" min="1" max="50" formControlName="amount" />
+            </div>
+          </div>
+        </div>
+        <div class="input-group">
+          <label for="type" class="label">Instance type</label>
+          <mat-select placeholder="Select Type" formControlName="type">
+            <mat-option value="Detection">Detection</mat-option>
+            <mat-option value="Discovery">Discovery</mat-option>
+          </mat-select>
+        </div>
+        <div class="input-group">
+          <label for="apis" class="label">APIs</label>
+          <app-chipset-input [parentForm]="form" [required]="isApiRequired" [inputValue]="inputValue"
+            [disable]="data && !!data.learned_apis"></app-chipset-input>
+        </div>
+        <div class="input-group">
+          <label for="ttl_in_days" class="label">Expiration (days)</label>
+          <input id="ttl_in_days" class="input" type="number" [min]="1" [defaultValue]="30"
+            formControlName="ttl_in_days" />
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button type="button" class="cancel-button button" (click)="closeDialog()">Cancel</button>
+        <input type="submit" value="Create Instance" [disabled]="!form.valid"
+          class="create-instance-button button primary" />
+      </div>
+    </form>
+    <ng-container *ngSwitchCase="instanceStatusEnum.LOADING">
+      <div class="status-dialog-body">
+        <mat-spinner diameter="50" strokeWidth="3"></mat-spinner>
+        <h3 class="dialog-title">Lab generation in progress...</h3>
+        <p class="dialog-description">New Lab Instance details will be sent to you by email and added to the instances
+          list once generation is complete.</p>
+      </div>
+      <div class="dialog-footer">
+        <button class="button primary" (click)="closeDialog()">Cancel</button>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="instanceStatusEnum.FINISHED">
+      <div class="status-dialog-body">
+        <span [innerHTML]="successTickIcon" class="status-icon"></span>
+        <h3 class="dialog-title">Instance generation completed successfully</h3>
+        <div class="status-message-container" *ngIf="instanceStatus.message">
+          <div class="status-message-icon" [innerHTML]="triangleExclamationMark"></div>
+          <div class="status-message">{{instanceStatus.message}}</div>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="button primary" (click)="closeDialog()">Close</button>
+      </div>
+    </ng-container>
+    <ng-container *ngSwitchCase="instanceStatusEnum.ERROR">
+      <div class="status-dialog-body">
+        <span [innerHTML]="errorCircle" class="status-icon"></span>
+        <h3 class="dialog-title">Failed to generate new instance</h3>
+        <div class="status-message-container" *ngIf="instanceStatus.message">
+          <div class="status-message-icon" [innerHTML]="circleExclamationMark"></div>
+          <div class="status-message">{{instanceStatus.message}}</div>
+        </div>
+      </div>
+      <div class="dialog-footer">
+        <button class="button primary" (click)="closeDialog()">Close</button>
+      </div>
+    </ng-container>
+  </ng-container>
+</div>

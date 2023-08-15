@@ -1,0 +1,16 @@
+<mat-chip-grid #chipGrid aria-label="Enter apis" [ngClass]="{'mat-mdc-chip-set-disabled' : disable}">
+    <mat-chip-row *ngFor="let api of vulnerable_applications" (removed)="remove(api)">
+        {{api}}
+        <button matChipRemove [attr.aria-label]="'remove ' + api">
+            <div class="delete-chip" [innerHTML]="closeIcon"></div>
+        </button>
+    </mat-chip-row>
+    <input placeholder="Type here" #apiChipsInput [matChipInputFor]="chipGrid"
+        [matChipInputSeparatorKeyCodes]="separatorKeysCodes"
+        [matAutocomplete]="auto" (input)="onChipInput($event)" [value]="inputValue" [disabled]="disable"/>
+    <mat-autocomplete #autoCompletePanel #auto="matAutocomplete" (optionSelected)="selected($event)">
+        <mat-option *ngFor="let api of filteredAPIs" [value]="vulnerable_applications">
+            {{api}}
+        </mat-option>
+    </mat-autocomplete>
+</mat-chip-grid>

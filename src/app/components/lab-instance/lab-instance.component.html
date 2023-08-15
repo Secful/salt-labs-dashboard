@@ -1,0 +1,73 @@
+<mat-expansion-panel class="lab-instance-accordion" hideToggle (opened)="onLabInstanceOpen()"
+    (closed)="onLabInstanceClose()">
+    <mat-expansion-panel-header class="lab-instance-accordion-header">
+        <mat-panel-title>
+            <button mat-icon-button class="expand-button" aria-label="Expand lab details">
+                <div [innerHTML]="isOpen ? chevronDownIcon : chevronRightIcon">
+                </div>
+            </button>
+            <span class="lab-name">{{labInfo.name}}</span>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <ng-container *ngIf="lab">
+        <div class="lab-instance-details">
+            <div class="lab-instance-header">
+                <h2 class="lab-instance-title">Lab instance details</h2>
+                <button class="copy-instance-details" (click)="copyInstanceDetails()">
+                    <div [innerHTML]="copyIcon"></div> Copy
+                </button>
+                <button class="download-instance-details" (click)="downloadInstanceDetails()">
+                    <div [innerHTML]="downloadIcon"></div> Download
+                </button>
+            </div>
+            <div class="details-group">
+                <h3 class="details-group-title">Vulnerable Applications</h3>
+                <ul class="details-list">
+                    <li *ngFor="let vulnerableApplication of lab.vulnerable_applications" class="details-list-item">
+                        <span class="detail-title">{{vulnerableApplication.name}}</span>
+                        <b class="detail-value">{{vulnerableApplication.url}}</b>
+                    </li>
+                </ul>
+            </div>
+            <div class="details-group">
+                <h3 class="details-group-title">Salt Lab Login</h3>
+                <ul class="details-list">
+                    <li class="details-list-item">
+                        <span class="detail-title">Username</span>
+                        <b class="detail-value">{{lab.salt_login_details.username}}</b>
+                    </li>
+                    <li class="details-list-item">
+                        <span class="detail-title">Password</span>
+                        <b class="detail-value">{{lab.salt_login_details.password}}</b>
+                    </li>
+                </ul>
+            </div>
+            <div class="details-group">
+                <h3 class="details-group-title">Traffic Generator</h3>
+                <div class="details-list">
+                    <div class="details-list-item">
+                        <span class="detail-title">URL</span>
+                        <b class="detail-value">{{lab.traffic_generator_url}}</b>
+                    </div>
+                </div>
+            </div>
+            <div class="details-group">
+                <h3 class="details-group-title">AWS Console Login</h3>
+                <ul class="details-list">
+                    <li class="details-list-item">
+                        <span class="detail-title">URL</span>
+                        <b class="detail-value">{{lab.aws_console_login.url}}</b>
+                    </li>
+                    <li class="details-list-item">
+                        <span class="detail-title">Username</span>
+                        <b class="detail-value">{{lab.aws_console_login.username}}</b>
+                    </li>
+                    <li class="details-list-item">
+                        <span class="detail-title">Password</span>
+                        <b class="detail-value">{{lab.aws_console_login.password}}</b>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </ng-container>
+</mat-expansion-panel>
