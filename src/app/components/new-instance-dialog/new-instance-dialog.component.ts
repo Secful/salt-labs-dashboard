@@ -25,7 +25,7 @@ export class NewInstanceDialogComponent implements OnInit {
     domain_name: new FormControl<string>('', [Validators.required]),
     amount: new FormControl<number>(1, [Validators.required, Validators.min(1), Validators.max(50)]),
     type: new FormControl<string>('', [Validators.required]),
-    owner: new FormControl<string>('', [Validators.email]),
+    owner: new FormControl<string>('', [Validators.email, Validators.required]),
     ttl_in_days: new FormControl<number>(30, [Validators.required, Validators.min(1)]),
   })
 
@@ -55,6 +55,11 @@ export class NewInstanceDialogComponent implements OnInit {
     this.circleExclamationMark = sanitizer.bypassSecurityTrustHtml(Icons.circleExclamationMark);
 
     if (data) {
+      if (data.domain_name) {
+        const time = new Date();
+        this.form.get('domain_name')?.setValue(data.domain_name + "_clone_" + time.getHours() + ':' + time.getMinutes());
+      }
+
       if (data.type) {
         this.form.get('type')?.setValue(data.type);
         this.form.get('type')?.disable();
