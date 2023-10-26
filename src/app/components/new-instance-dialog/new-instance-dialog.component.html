@@ -1,6 +1,6 @@
 <div class="dialog-container">
   <div class="dialog-header">
-    <h2 class="dialog-title">{{data ? 'Clone "' + data.domain_name + '" Instance' : 'New Instance'}}</h2>
+    <h2 class="dialog-title">{{data ? 'Clone "' + data.domain_name + '" Lab Domain' : 'New Lab Domain'}}</h2>
     <button class="close-button" (click)="closeDialog()">
       <div [innerHTML]="closeIcon"></div>
     </button>
@@ -18,24 +18,28 @@
             </div>
             <div class="input-group number-of-instances-input">
               <label for="amount" class="label">Number of instances</label>
-              <input id="amount" class="input" type="number" min="1" max="50" formControlName="amount" />
+              <input id="amount" class="input" type="number" min="1" max="50" formControlName="amount"
+                placeholder="Between 1-50" />
             </div>
           </div>
         </div>
         <div class="input-group">
           <label for="type" class="label">Instance type</label>
           <mat-select placeholder="Select Type" formControlName="type">
-            <mat-option value="Detection">Detection</mat-option>
-            <mat-option value="Discovery">Discovery</mat-option>
+            <mat-option *ngFor="let option of instanceTypesOptions" [value]="option">{{option}}</mat-option>
           </mat-select>
         </div>
         <div class="input-group">
           <label for="apis" class="label">APIs</label>
           <app-chipset-input [parentForm]="form" [required]="isApiRequired" [inputValue]="inputValue"
-            [disable]="data && !!data.learned_apis"></app-chipset-input>
+            [disable]="data && !!data.vulnerable_applications" [allAPIChips]="vulnerableApis"></app-chipset-input>
         </div>
         <div class="input-group">
-          <label for="ttl_in_days" class="label">Expiration (days)</label>
+          <label for="owner" class="label">Created by</label>
+          <input id="owner" class="input" type="text" formControlName="owner" placeholder="Email address" />
+        </div>
+        <div class="input-group">
+          <label for="ttl_in_days" class="label">TTL (days)</label>
           <input id="ttl_in_days" class="input" type="number" [min]="1" [defaultValue]="30"
             formControlName="ttl_in_days" />
         </div>
@@ -61,6 +65,8 @@
       <div class="status-dialog-body">
         <span [innerHTML]="successTickIcon" class="status-icon"></span>
         <h3 class="dialog-title">Instance generation completed successfully</h3>
+        <p class="dialog-description">The new Lab Instance details and verification summary details were sent by email
+          to the lab owner.</p>
         <div class="status-message-container" *ngIf="instanceStatus.message">
           <div class="status-message-icon" [innerHTML]="triangleExclamationMark"></div>
           <div class="status-message">{{instanceStatus.message}}</div>

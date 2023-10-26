@@ -1,7 +1,6 @@
 <div class="dashboard-page">
     <button (click)="openNewInstanceDialog()" class="button primary"><span class="plus-icon"
-            [innerHTML]="plusIcon"></span> New
-        Instance</button>
+            [innerHTML]="plusIcon"></span>New Lab Domain</button>
     <div class="dashboard-wrapper">
         <mat-tab-group mat-stretch-tabs="false" mat-align-tabs="start">
             <mat-tab label="Instances">
@@ -17,19 +16,25 @@
                             {{element[column.field] | date:"MMM dd yyyy, HH:mm"}}
                         </td>
                     </ng-container>
-                    <ng-container matColumnDef="learned_apis">
+                    <ng-container matColumnDef="vulnerable_applications">
                         <th mat-header-cell *matHeaderCellDef>Learned API</th>
                         <td mat-cell *matCellDef="let element">
                             <div class="learned-apis-chips">
-                                <span class="api-chip" *ngFor="let chip of element.learned_apis">{{chip}}</span>
+                                <span class="api-chip"
+                                    *ngFor="let chip of element.vulnerable_applications">{{chip}}</span>
                             </div>
                         </td>
+                    </ng-container>
+                    <ng-container matColumnDef="ttl_expiration_date">
+                        <th mat-header-cell *matHeaderCellDef>TTL - expiration date</th>
+                        <td mat-cell *matCellDef="let element">{{element.ttl_expiration_date < 0 ? 'Expired' :
+                                element.ttl_expiration_date}}</td>
                     </ng-container>
                     <ng-container matColumnDef="expand">
                         <th mat-header-cell *matHeaderCellDef aria-label="row actions">&nbsp;</th>
                         <td mat-cell *matCellDef="let element">
                             <button mat-icon-button class="expand-button" aria-label="expand row"
-                                (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation()">
+                                (click)="(expandedElement = expandedElement === element ? null : element); $event.stopPropagation(); onDomainClick(expandedElement)">
                                 <div [innerHTML]="expandedElement === element ? chevronDownIcon : chevronRightIcon">
                                 </div>
                             </button>
@@ -52,8 +57,12 @@
                                 [@detailExpand]="element == expandedElement ? 'expanded' : 'collapsed'">
                                 <div class="element-description">
                                     <mat-accordion>
-                                        <app-lab-instance *ngFor="let labInstance of element.labs"
-                                            [labInfo]="labInstance" class="lab-instance"></app-lab-instance>
+                                        <ng-container *ngIf="element.labs.length > 1; else singleInstance">
+                                            <app-lab-accordion *ngFor="let labInstance of element.labs"
+                                                [labInfo]="labInstance" class="lab-instance"></app-lab-accordion>
+                                        </ng-container>
+                                        <ng-template #singleInstance><app-lab-instance [labInfo]="element.labs[0]"
+                                                [lab]="lab"></app-lab-instance></ng-template>
                                     </mat-accordion>
                                 </div>
                             </div>
@@ -66,7 +75,6 @@
                     <tr mat-row *matRowDef="let row; columns: ['expandedDetail']" class="detail-row"></tr>
                 </table>
             </mat-tab>
-            <mat-tab label="APIs">TBD</mat-tab>
         </mat-tab-group>
     </div>
 </div>

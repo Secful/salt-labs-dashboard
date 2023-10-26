@@ -1,0 +1,39 @@
+.lab-instance-accordion {
+    box-shadow: none;
+}
+
+.lab-instance-accordion-header {
+    height: auto;
+    border-bottom: 1px solid var(--neutral-03);
+    padding: 14px 0;
+}
+
+.lab-instance-accordion .lab-instance-accordion-header:hover {
+    background-color: inherit;
+}
+
+.lab-instance-accordion-header.mat-expanded{
+    height: auto;
+}
+
+.lab-name {
+    margin-inline-start: 10px;
+    color: var(--neutral-6);
+    font-weight: 400;
+}
+
+.expand-button {
+    --mat-mdc-button-persistent-ripple-color: transparent;
+    --mat-mdc-button-ripple-color: transparent;
+    width: 25px;
+    height: 25px;
+    border-radius: 0;
+    padding: 0;
+    color: var(--primary-05);
+}
+
+.expand-button div {
+    width: 100%;
+    height: 100%;
+}
+

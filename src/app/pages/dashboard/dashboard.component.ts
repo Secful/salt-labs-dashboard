@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, OnDestroy } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, OnDestroy, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { HeaderComponent } from 'src/app/components/header/header.component';
 import { animate, state, style, transition, trigger } from '@angular/animations';
@@ -7,15 +7,20 @@ import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
 import { MatDialog } from '@angular/material/dialog';
 import { NewInstanceDialogComponent } from 'src/app/components/new-instance-dialog/new-instance-dialog.component';
 import { DashboardDataService } from 'src/app/services/dashboard-data.service';
-import { Subscription } from 'rxjs';
+import { Subscription, take } from 'rxjs';
 import { MaterialModule } from 'src/app/modules/material.module';
 import { IDomain } from 'src/app/interfaces/domain.interface';
 import { LabInstanceComponent } from 'src/app/components/lab-instance/lab-instance.component';
+import { LabAccordionComponent } from 'src/app/components/lab-accordion/lab-accordion.component';
+import { ILab } from 'src/app/interfaces/lab.interface';
+import { MatTableDataSource } from '@angular/material/table';
+import { MatPaginator } from '@angular/material/paginator';
+import { InstanceStatus } from 'src/app/components/new-instance-dialog/new-instance-dialog-enum';
 
 @Component({
   selector: 'app-dashboard',
   standalone: true,
-  imports: [CommonModule, MaterialModule, HeaderComponent, LabInstanceComponent],
+  imports: [CommonModule, MaterialModule, HeaderComponent, LabInstanceComponent, LabAccordionComponent],
   templateUrl: './dashboard.component.html',
   animations: [
     trigger('detailExpand', [
@@ -27,10 +32,12 @@ import { LabInstanceComponent } from 'src/app/components/lab-instance/lab-instan
   styleUrls: ['./dashboard.component.css'],
 })
 export class DashboardComponent implements OnInit, OnDestroy {
-  dataSource: IDomain[] = [];
+  // dataSource: IDomain[] = [];
+  dataSource: MatTableDataSource<IDomain> = new MatTableDataSource<IDomain>([]);
   domainsSubscription: Subscription = new Subscription();
 
   expandedElement: IDomain | null = null;
+  lab: ILab | null = null;
 
   defaultColumnsToDisplay = defaultColumnsToDisplay;
   dateColumnsToDisplay = dateColumnsToDisplay;
@@ -55,8 +62,8 @@ export class DashboardComponent implements OnInit, OnDestroy {
 
   ngOnInit(): void {
     this.domainsSubscription = this.dataService.domains$.subscribe(data => {
-      this.dataSource = data.map(dataItem => {
-        const difference = dataItem.expiration_date.getTime() - new Date().getTime();
+      this.dataSource.data = data.map(dataItem => {
+        const difference = new Date(dataItem.expiration_date).getTime() - new Date().getTime();
         const ttl_expiration_date = Math.ceil(difference / (1000 * 3600 * 24));
         return { ...dataItem, ttl_expiration_date }
       });
@@ -70,7 +77,19 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   openNewInstanceDialog() {
+    this.dataService.instanceStatusSubject.next({ status: InstanceStatus.FORM })
     this.dialog.open(NewInstanceDialogComponent, { panelClass: 'new-instance-dialog' });
+  }
+
+  onDomainClick(domain: IDomain | null) {
+    if (!domain || domain.labs.length !== 1) {
+      return;
+    }
+    const lab = domain.labs[0];
+
+    this.dataService.getLab(lab.name).subscribe(data => {
+      this.lab = data
+    });
   }
 
   cloneDomain(domain: IDomain) {
@@ -78,7 +97,9 @@ export class DashboardComponent implements OnInit, OnDestroy {
   }
 
   deleteDomain(domain: IDomain) {
-    this.dataService.deleteDomain(domain);
+    this.dataService.deleteDomain(domain).subscribe(res => {
+      this.dataService.getAllDomains();
+    });
   }
 
 }
@@ -96,10 +117,6 @@ const defaultColumnsToDisplay = [
     header: "Created By",
     field: "owner"
   },
-  {
-    header: "TTL - expiration date",
-    field: "ttl_expiration_date"
-  },
 ]
 
 const dateColumnsToDisplay = [
@@ -109,4 +126,4 @@ const dateColumnsToDisplay = [
   },
 ]
 
-const columnsToDisplayWithExpand = ['expand', 'domain_name', 'type', 'learned_apis', 'owner', "creation_date", "ttl_expiration_date", 'extra_buttons'];
+const columnsToDisplayWithExpand = ['expand', 'domain_name', 'type', 'vulnerable_applications', 'owner', "creation_date", "ttl_expiration_date", 'extra_buttons'];

@@ -8,7 +8,7 @@ export interface IDomain {
     labs: ILabInfo[];
     creation_date: Date;
     type: 'Detection' | 'Discovery';
-    learned_apis: string[];
+    vulnerable_applications: string[];
     ttl_expiration_date?: number;
 }
 
@@ -18,4 +18,10 @@ export interface INewDomain {
     type: 'Detection' | 'Discovery';
     vulnerable_applications: string[];
     ttl_in_days: number;
+    owner: string;
+}
+
+export interface IOptions {
+    vulnerable_apis: string[];
+    instance_types: string[];
 }

@@ -25,6 +25,7 @@ export class NewInstanceDialogComponent implements OnInit {
     domain_name: new FormControl<string>('', [Validators.required]),
     amount: new FormControl<number>(1, [Validators.required, Validators.min(1), Validators.max(50)]),
     type: new FormControl<string>('', [Validators.required]),
+    owner: new FormControl<string>('', [Validators.email]),
     ttl_in_days: new FormControl<number>(30, [Validators.required, Validators.min(1)]),
   })
 
@@ -36,6 +37,9 @@ export class NewInstanceDialogComponent implements OnInit {
   instanceStatus$: Observable<IInstanceStatus> = new Observable();
   instanceStatus: IInstanceStatus = { status: InstanceStatus.FORM };
   instanceStatusEnum = InstanceStatus;
+
+  instanceTypesOptions: string[] = [];
+  vulnerableApis: string[] = [];
 
   closeIcon: SafeHtml;
   successTickIcon: SafeHtml;
@@ -55,8 +59,8 @@ export class NewInstanceDialogComponent implements OnInit {
         this.form.get('type')?.setValue(data.type);
         this.form.get('type')?.disable();
       }
-      if (data.learned_apis) {
-        this.inputValue = data.learned_apis.join(', ');
+      if (data.vulnerable_applications) {
+        this.inputValue = data.vulnerable_applications.join(', ');
       }
     }
 
@@ -70,18 +74,24 @@ export class NewInstanceDialogComponent implements OnInit {
     this.instanceStatus$.subscribe(status => {
       this.instanceStatus = status
     })
+
+    this.dataService.instanceTypes$.subscribe(res => this.instanceTypesOptions = res);
+    this.dataService.vulnerableApis$.subscribe(res => this.vulnerableApis = res);
+
+    this.dataService.getOptions();
   }
 
   formSubmit() {
-    if (this.data && this.data.learned_apis) {
-      this.form.get('vulnerable_applications')?.setValue(this.data.learned_apis);
+    if (this.data && this.data.vulnerable_applications) {
+      this.form.get('vulnerable_applications')?.setValue(this.data.vulnerable_applications);
     }
 
     const newDomain: INewDomain = this.form.getRawValue();
 
-    this.dataService.createDomain(newDomain);
-
-    //TODO: change it to Instance interface that gets sent to the server
+    this.dataService.createDomain(newDomain).subscribe(() => {
+      this.dataService.getAllDomains();
+      this.dataService.changeInstanceStatus({ status: InstanceStatus.FINISHED });
+    });
   }
 
   closeDialog() {

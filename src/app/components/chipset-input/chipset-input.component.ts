@@ -20,7 +20,6 @@ export class ChipsetInputComponent implements OnInit, OnChanges{
   vulnerable_applications: string[] = [];
   apiChipsCtrl = new FormControl<string[]>([]);
   filteredAPIs: string[]
-  allAPIChips: string[] = ['Hackazon', 'Crapi'];
   
   @ViewChild('apiChipsInput') apiChipsInput: ElementRef<HTMLInputElement> = {} as ElementRef;
   @ViewChild('autoCompletePanel') autoCompletePanel: MatAutocomplete = {} as MatAutocomplete;
@@ -28,6 +27,7 @@ export class ChipsetInputComponent implements OnInit, OnChanges{
   @Input() required: boolean = false;
   @Input() inputValue: string = "";
   @Input() disable: boolean = false;
+  @Input() allAPIChips: string[] = [];
 
   chipsetValidator = chipsValidator();
   closeIcon: SafeHtml
@@ -39,6 +39,7 @@ export class ChipsetInputComponent implements OnInit, OnChanges{
 
   ngOnChanges(changes: SimpleChanges): void {
     if (changes['required']) {
+
       if (changes['required'].currentValue) {
         this.parentForm.get('vulnerable_applications')?.addValidators(this.chipsetValidator);
         this.parentForm.get('vulnerable_applications')?.updateValueAndValidity();
