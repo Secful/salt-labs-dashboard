@@ -5,6 +5,8 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { HeaderComponent } from '../components/header/header.component';
 import { DashboardComponent } from '../pages/dashboard/dashboard.component';
 import { DashboardDataService } from '../services/dashboard-data.service';
+import { HTTP_INTERCEPTORS, HttpClientModule } from '@angular/common/http'
+import { TokenInterceptor } from '../interceptors/token.interceptor';
 
 @NgModule({
   declarations: [
@@ -15,8 +17,9 @@ import { DashboardDataService } from '../services/dashboard-data.service';
     BrowserAnimationsModule,
     HeaderComponent,
     DashboardComponent,
+    HttpClientModule
   ],
-  providers: [DashboardDataService],
+  providers: [DashboardDataService, { provide: HTTP_INTERCEPTORS, useClass: TokenInterceptor, multi: true },],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

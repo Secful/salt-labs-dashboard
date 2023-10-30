@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MaterialModule } from 'src/app/modules/material.module';
 import { DomSanitizer, SafeHtml } from '@angular/platform-browser';
@@ -15,38 +15,22 @@ import { ExportService } from 'src/app/services/export.service';
   templateUrl: './lab-instance.component.html',
   styleUrls: ['./lab-instance.component.css']
 })
-export class LabInstanceComponent {
+export class LabInstanceComponent implements OnInit{
 
   @Input() labInfo: ILabInfo = {} as ILabInfo;
-  lab: ILab | null = null;
+  @Input() lab: ILab | null = null;
 
-  isOpen: boolean = false;
 
-  chevronDownIcon: SafeHtml;
-  chevronRightIcon: SafeHtml;
   copyIcon: SafeHtml;
   downloadIcon: SafeHtml;
 
-  constructor(private sanitizer: DomSanitizer, private dataService: DashboardDataService, private exportService: ExportService) {
-    this.chevronDownIcon = sanitizer.bypassSecurityTrustHtml(Icons.chevronDown);
-    this.chevronRightIcon = sanitizer.bypassSecurityTrustHtml(Icons.chevronRight);
+  constructor(private sanitizer: DomSanitizer, private exportService: ExportService) {
     this.copyIcon = sanitizer.bypassSecurityTrustHtml(Icons.copy);
     this.downloadIcon = sanitizer.bypassSecurityTrustHtml(Icons.download);
   }
-
-  onLabInstanceOpen() {
-    this.isOpen = true;
-    if (this.lab === null) {
-      this.dataService.getLab(this.labInfo.name).pipe(take(1)).subscribe(data => {
-        console.log("data", data);
-        this.lab = data;
-      })
-    }
+  ngOnInit(): void {
   }
 
-  onLabInstanceClose() {
-    this.isOpen = false;
-  }
 
   downloadInstanceDetails() {
     if (!this.lab)

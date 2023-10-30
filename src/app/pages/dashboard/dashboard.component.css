@@ -152,9 +152,12 @@ tr.detail-row {
     display: inline-block;
 }
 
+:host >>> .mat-expansion-panel-body {
+    padding-bottom: 0;
+}
+
 :host >>> .mat-expansion-panel-spacing {
     margin: 0;
-    padding-bottom: 14px;
     border-bottom: 1px solid var(--neutral-03);
 }
 

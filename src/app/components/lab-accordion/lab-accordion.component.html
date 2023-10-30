@@ -1,0 +1,13 @@
+<mat-expansion-panel class="lab-instance-accordion" hideToggle (opened)="onLabInstanceOpen()"
+    (closed)="onLabInstanceClose()">
+    <mat-expansion-panel-header class="lab-instance-accordion-header">
+        <mat-panel-title>
+            <button mat-icon-button class="expand-button" aria-label="Expand lab details">
+                <div [innerHTML]="isOpen ? chevronDownIcon : chevronRightIcon">
+                </div>
+            </button>
+            <span class="lab-name">{{labInfo.name}}</span>
+        </mat-panel-title>
+    </mat-expansion-panel-header>
+    <app-lab-instance [lab]="lab" [labInfo]="labInfo"></app-lab-instance>
+</mat-expansion-panel>

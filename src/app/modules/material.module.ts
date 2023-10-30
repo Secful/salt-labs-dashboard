@@ -9,6 +9,8 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatSelectModule } from '@angular/material/select';
 import { MatTableModule } from '@angular/material/table';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatPaginatorModule } from '@angular/material/paginator';
+
 
 @NgModule({
   exports: [
@@ -22,6 +24,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatSelectModule,
     MatTableModule,
     MatTabsModule,
+    MatPaginatorModule
   ]
 })
 export class MaterialModule { }
