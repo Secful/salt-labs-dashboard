@@ -5,15 +5,16 @@
     padding-bottom: 16px;
 }
 
-.dashboard-page{
+.dashboard-page {
     margin: 20px;
 }
 
-:host >>> .dashboard-wrapper .mat-mdc-tab-header .mat-mdc-tab-labels {
+:host>>>.dashboard-wrapper .mat-mdc-tab-header .mat-mdc-tab-labels {
     border-bottom: 1px solid #e6e6e6;
 }
 
-.mat-mdc-tab-group, .mat-mdc-tab-nav-bar {
+.mat-mdc-tab-group,
+.mat-mdc-tab-nav-bar {
     --mdc-tab-indicator-active-indicator-color: var(--primary-05);
     --mat-tab-header-active-label-text-color: var(--primary-05);
     --mat-tab-header-active-ripple-color: var(--primary-05);
@@ -24,18 +25,18 @@
     --mat-tab-header-active-hover-indicator-color: var(--primary-05);
 }
 
-.dashboard-table{
+.dashboard-table {
     width: 100%;
 }
-  
+
 tr.detail-row {
     height: 0;
 }
 
-.expanded-row + .detail-row:not(:last-of-type) .mat-mdc-cell {
+.expanded-row+.detail-row:not(:last-of-type) .mat-mdc-cell {
     border-bottom: 1px solid var(--neutral-03);
 }
-  
+
 .element-row td {
     border-bottom-width: 1px;
 }
@@ -43,7 +44,7 @@ tr.detail-row {
 .mdc-data-table__cell {
     border-bottom-width: 0;
 }
-  
+
 .element-detail {
     overflow: hidden;
     display: flex;
@@ -54,11 +55,11 @@ tr.detail-row {
     width: 100%;
 }
 
-.mat-mdc-header-cell{
+.mat-mdc-header-cell {
     position: relative;
 }
 
-.mat-mdc-header-cell + .mat-mdc-header-cell:not(:last-child)::after {
+.mat-mdc-header-cell+.mat-mdc-header-cell:not(:last-child)::after {
     content: "";
     width: 1px;
     height: 50%;
@@ -97,19 +98,19 @@ tr.detail-row {
     height: 100%;
 }
 
-.table-header-subtext{
+.table-header-subtext {
     color: var(--neutral-06);
     font-size: 12px;
 }
 
-.action-button{
+.action-button {
     background-color: transparent;
     border: none;
     padding: 0;
     cursor: pointer;
 }
 
-.action-button + .action-button{
+.action-button+.action-button {
     margin-inline-start: 30px;
 }
 
@@ -119,7 +120,7 @@ tr.detail-row {
     color: var(--primary-05);
 }
 
-.learned-apis-chips{
+.learned-apis-chips {
     display: flex;
     flex-wrap: wrap;
     gap: 5px;
@@ -128,14 +129,14 @@ tr.detail-row {
 
 .api-chip {
     background-color: var(--neutral-01);
-    color:var(--neutral-06);
+    color: var(--neutral-06);
     border-radius: 6px;
     line-height: 22px;
     padding-inline: 10px;
     border: 1px solid var(--neutral-02)
 }
 
-.configured-apis-title{
+.configured-apis-title {
     margin-bottom: 6px;
     font-size: 14px;
     font-weight: 400;
@@ -152,16 +153,16 @@ tr.detail-row {
     display: inline-block;
 }
 
-:host >>> .mat-expansion-panel-body {
+:host>>>.mat-expansion-panel-body {
     padding-bottom: 0;
 }
 
-:host >>> .mat-expansion-panel-spacing {
+:host>>>.mat-expansion-panel-spacing {
     margin: 0;
     border-bottom: 1px solid var(--neutral-03);
 }
 
-:host >>> .lab-instance:last-child .mat-expansion-panel-spacing {
+:host>>>.lab-instance:last-child .mat-expansion-panel-spacing {
     border-bottom: none;
 }
 
@@ -169,6 +170,25 @@ tr.detail-row {
     border-radius: 0;
 }
 
-:host >>> .lab-instance:last-child .lab-instance-accordion-header:not(.mat-expanded) {
+:host>>>.lab-instance:last-child .lab-instance-accordion-header:not(.mat-expanded) {
     border-bottom: none;
+}
+
+
+.loading {
+    display: flex;
+    justify-content: center;
+    padding: 40px;
+}
+
+:host ::ng-deep .mat-mdc-progress-spinner .mdc-circular-progress__indeterminate-circle-graphic {
+    stroke: var(--primary-05);
+}
+
+.mat-mdc-paginator {
+    padding-top: 16px;
+}
+
+.paginator-loading {
+    display: none;
 }
