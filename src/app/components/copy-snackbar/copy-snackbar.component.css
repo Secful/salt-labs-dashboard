@@ -1,0 +1,20 @@
+:host {
+    display: flex;
+    align-items: center;
+}
+
+.close-button {
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+    color: #ffffff;
+    padding: 8px 14px;
+    font-size: 12px;
+    border-radius: 6px;
+    transition: background-color 200ms ease-in-out;
+}
+
+.close-button:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+    transition: background-color 200ms ease-in-out;
+}

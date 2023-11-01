@@ -1,12 +1,14 @@
 import { Injectable } from '@angular/core';
 import { ILab } from '../interfaces/lab.interface';
+import { MatSnackBar } from '@angular/material/snack-bar';
+import { CopySnackbarComponent } from '../components/copy-snackbar/copy-snackbar.component';
 
 @Injectable({
   providedIn: 'root'
 })
 export class ExportService {
 
-  constructor() { }
+  constructor(private _snackBar: MatSnackBar) { }
 
   private formatText(lab: ILab) {
     const labDetails = this.getInstanceDetails(lab);
@@ -31,6 +33,9 @@ export class ExportService {
   copyInstanceDetails(lab: ILab) {
     const formattedText = this.formatText(lab);
     navigator.clipboard.writeText(formattedText);
+    this._snackBar.openFromComponent(CopySnackbarComponent, {
+      duration: 1500,
+    });
   }
 
   private getInstanceDetails(lab: ILab) {
@@ -49,15 +54,6 @@ export class ExportService {
           {
             title: 'Password',
             value: lab.salt_login_details.password
-          }
-        ]
-      },
-      {
-        title: 'Traffic Generator',
-        list: [
-          {
-            title: 'URL',
-            value: lab.traffic_generator_url
           }
         ]
       },
